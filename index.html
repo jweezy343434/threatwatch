@@ -354,11 +354,116 @@
             font-weight: 600;
         }
 
-        @media (max-width: 768px) {
-            .threat-panel {
-                width: 100vw;
-                right: -100vw;
-            }
+        .contact-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .contact-modal.show {
+            display: flex;
+        }
+
+        .contact-form {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .contact-form h2 {
+            color: #00ff88;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .contact-form p {
+            color: #b8b8b8;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #ffffff;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .form-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: #000000;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .threat-level {
@@ -410,11 +515,11 @@
                     
                     <div class="coming-soon">
                         <h3>Portal Launching Soon</h3>
-                        <p>Built by operators who've defended networks that matter. See the Live Threats tab for a preview of our intelligence quality.</p>
+                        <p>Built by operators who've defended networks that matter around the globe. See the Live Threats tab for a preview of our intelligence quality.</p>
                     </div>
 
                     <div class="cta-buttons">
-                        <a href="#" class="btn btn-primary">Request Early Access</a>
+                        <a href="#" onclick="showContactForm()" class="btn btn-primary">Request Early Access</a>
                         <a href="#features" class="btn btn-secondary">Learn More</a>
                     </div>
                 </div>
@@ -430,7 +535,7 @@
                     <div class="feature-card">
                         <div class="feature-icon">🎯</div>
                         <h3>Pay for What You Need</h3>
-                        <p>Want Microsoft threats? Pay for Microsoft. We deliver every report, vulnerability, and incident targeting your specific technologies—nothing more, nothing less.</p>
+                        <p>Want a specific vendor's threats? We deliver every report, vulnerability, and incident targeting your specific technologies—nothing more, nothing less.</p>
                     </div>
                     
                     <div class="feature-card">
@@ -466,6 +571,70 @@
             </div>
         </section>
     </main>
+
+    <!-- Contact Form Modal -->
+    <div id="contactModal" class="contact-modal">
+        <div class="contact-form">
+            <h2>Request Early Access</h2>
+            <p>Join security professionals who are already using ThreatWatch intelligence to protect their organizations.</p>
+            
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="company">Company/Organization *</label>
+                    <input type="text" id="company" name="company" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="role">Role *</label>
+                    <select id="role" name="role" required>
+                        <option value="">Select your role</option>
+                        <option value="CISO">CISO</option>
+                        <option value="Security Analyst">Security Analyst</option>
+                        <option value="IT Manager">IT Manager</option>
+                        <option value="SOC Manager">SOC Manager</option>
+                        <option value="Threat Intelligence Analyst">Threat Intelligence Analyst</option>
+                        <option value="Security Engineer">Security Engineer</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="industry">Industry *</label>
+                    <select id="industry" name="industry" required>
+                        <option value="">Select your industry</option>
+                        <option value="Financial Services">Financial Services</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Government">Government</option>
+                        <option value="Critical Infrastructure">Critical Infrastructure</option>
+                        <option value="Manufacturing">Manufacturing</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Education">Education</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Tell us about your threat intelligence needs</label>
+                    <textarea id="message" name="message" placeholder="What specific threats are you most concerned about? What tools do you currently use?"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="hideContactForm()">Cancel</button>
+                    <button type="submit" class="btn-submit">Send Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Threat Intelligence Panel -->
     <div id="threatPanel" class="threat-panel">
@@ -521,9 +690,55 @@
         document.querySelectorAll('.contact-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                // You can change this to whatever you want - email, form, etc.
-                alert('Contact us at info@threatwatch.com for early access');
+                showContactForm();
             });
+        });
+
+        // Contact form functions
+        function showContactForm() {
+            document.getElementById('contactModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideContactForm() {
+            document.getElementById('contactModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Handle form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Create email body
+            const emailBody = `
+Early Access Request from ${data.fullName}
+
+Company: ${data.company}
+Email: ${data.email}
+Role: ${data.role}
+Industry: ${data.industry}
+
+Message:
+${data.message || 'No additional message provided.'}
+
+---
+Sent from ThreatWatch.dev contact form
+            `.trim();
+            
+            // Create mailto link
+            const subject = encodeURIComponent(`Early Access Request - ${data.company}`);
+            const body = encodeURIComponent(emailBody);
+            const mailtoLink = `mailto:devs@threatwatch.dev?subject=${subject}&body=${body}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Close modal and show success message
+            hideContactForm();
+            alert('Thank you! Your email client should now open with a pre-filled message to send to our team.');
         });
 
         // Threat Intelligence Panel Functions

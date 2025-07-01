@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreatWatch - Intelligence Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 20px 0;
+            position: relative;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00ff88;
+        }
+
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ffffff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: #b8b8b8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: #000000;
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #00ff88;
+        }
+
+        .btn-secondary:hover {
+            background: #00ff88;
+            color: #000000;
+        }
+
+        .features {
+            padding: 100px 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 255, 136, 0.5);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #00ff88;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: #b8b8b8;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #b8b8b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        footer {
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #b8b8b8;
+        }
+
+        .coming-soon {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin: 40px auto;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .coming-soon h3 {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        .threat-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(0, 255, 136, 0.3);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .threat-panel.open {
+            right: 0;
+        }
+
+        .threat-panel-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .threat-panel-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00ff88;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .threat-stats {
+            padding: 15px 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .mini-stat {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .mini-stat-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00ff88;
+        }
+
+        .mini-stat-label {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+        }
+
+        .threat-feed {
+            padding: 20px;
+        }
+
+        .threat-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid;
+        }
+
+        .threat-malware { border-left-color: #dc3545; }
+        .threat-phishing { border-left-color: #ffc107; }
+        .threat-c2 { border-left-color: #6f42c1; }
+
+        .threat-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .threat-type-badge {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-malware { background: rgba(220, 53, 69, 0.2); color: #dc3545; }
+        .badge-phishing { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+        .badge-c2 { background: rgba(111, 66, 193, 0.2); color: #6f42c1; }
+
+        .threat-time {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+        }
+
+        .threat-ioc {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #00ff88;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: 4px;
+            word-break: break-all;
+            margin-bottom: 8px;
+        }
+
+        .threat-source {
+            font-size: 0.75rem;
+            color: #b8b8b8;
+        }
+
+        .refresh-btn {
+            width: calc(100% - 40px);
+            margin: 0 20px 20px;
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: #000000;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .threat-panel {
+                width: 100vw;
+                right: -100vw;
+            }
+        }
+
+        .threat-level {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 5px;
+        }
+
+        .level-high {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.5);
+        }
+
+        .level-medium {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.5);
+        }
+
+        .level-low {
+            background: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+            border: 1px solid rgba(40, 167, 69, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">ThreatWatch</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#" onclick="showThreats()">Live Threats</a></li>
+                <li><a href="#" class="contact-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Intelligence That Protects</h1>
+                    <p>Stay ahead of emerging threats with real-time intelligence tailored to your organization's unique risk profile and operational environment.</p>
+                    
+                    <div class="coming-soon">
+                        <h3>🚀 Portal Launching Soon</h3>
+                        <p>Our secure intelligence portal is in final development. Be among the first to access personalized threat intelligence.</p>
+                    </div>
+
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-primary">Request Early Access</a>
+                        <a href="#features" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="container">
+                <h2 class="section-title">Threat Intelligence Built for Your Organization</h2>
+                <p class="section-subtitle">Cut through the noise with intelligence that matters to your specific industry, geography, and threat landscape.</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Targeted Intelligence</h3>
+                        <p>Receive threat reports filtered by your industry, technology stack, and geographic presence. No generic alerts—only what impacts you.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Real-Time Alerts</h3>
+                        <p>Get notified immediately when threats emerge that could affect your organization. Stay ahead of the curve with actionable intelligence.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Risk Analytics</h3>
+                        <p>Understand your threat landscape with visual analytics, trend analysis, and risk scoring tailored to your business context.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Secure Portal</h3>
+                        <p>Access intelligence through a secure, authenticated portal with role-based permissions and audit logging for compliance.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h3>Expert Analysis</h3>
+                        <p>Every report includes expert analysis and recommendations, not just raw data. Understand the "so what" behind each threat.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h3>Integration Ready</h3>
+                        <p>Seamlessly integrate with your existing security tools and workflows through our comprehensive API and webhook support.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Threat Intelligence Panel -->
+    <div id="threatPanel" class="threat-panel">
+        <div class="threat-panel-header">
+            <div class="threat-panel-title">Live Threats</div>
+            <button class="close-btn" onclick="hideThreats()">&times;</button>
+        </div>
+        
+        <div class="threat-stats">
+            <div class="mini-stat">
+                <div class="mini-stat-number" id="miniTotalThreats">247</div>
+                <div class="mini-stat-label">Today</div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-stat-number" id="miniActiveSources">5</div>
+                <div class="mini-stat-label">Sources</div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-stat-number" id="miniHighConf">89</div>
+                <div class="mini-stat-label">High Conf</div>
+            </div>
+            <div class="mini-stat">
+                <div class="mini-stat-number" id="miniNewHour">12</div>
+                <div class="mini-stat-label">Last Hour</div>
+            </div>
+        </div>
+
+        <button class="refresh-btn" onclick="refreshThreats()">Refresh Feed</button>
+
+        <div class="threat-feed" id="threatFeed">
+            <!-- Threats will be populated here -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ThreatWatch Intelligence Portal. Protecting organizations through targeted intelligence.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Contact links go to early access
+        document.querySelectorAll('.contact-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                // You can change this to whatever you want - email, form, etc.
+                alert('Contact us at info@threatwatch.com for early access');
+            });
+        });
+
+        // Threat Intelligence Panel Functions
+        function showThreats() {
+            document.getElementById('threatPanel').classList.add('open');
+            if (!window.threatsLoaded) {
+                loadThreats();
+                window.threatsLoaded = true;
+            }
+        }
+
+        function hideThreats() {
+            document.getElementById('threatPanel').classList.remove('open');
+        }
+
+        function loadThreats() {
+            const threatFeed = document.getElementById('threatFeed');
+            
+            // Mock threat data - in production this would come from your aggregated feeds
+            const mockThreats = [
+                {
+                    type: 'malware',
+                    ioc: 'http://malicious-site.ru/payload.exe',
+                    source: 'URLhaus',
+                    time: '2 min ago',
+                    confidence: 'high'
+                },
+                {
+                    type: 'c2',
+                    ioc: '185.220.102.8:443',
+                    source: 'Feodo Tracker',
+                    time: '5 min ago',
+                    confidence: 'high'
+                },
+                {
+                    type: 'phishing',
+                    ioc: 'https://fake-bank-login.com/secure',
+                    source: 'PhishTank',
+                    time: '8 min ago',
+                    confidence: 'medium'
+                },
+                {
+                    type: 'malware',
+                    ioc: 'a1b2c3d4e5f6789....(SHA256)',
+                    source: 'MalwareBazaar',
+                    time: '12 min ago',
+                    confidence: 'high'
+                },
+                {
+                    type: 'c2',
+                    ioc: '192.168.100.45:8080',
+                    source: 'Abuse.ch',
+                    time: '15 min ago',
+                    confidence: 'medium'
+                },
+                {
+                    type: 'malware',
+                    ioc: 'http://download-now.tk/installer.zip',
+                    source: 'URLhaus',
+                    time: '18 min ago',
+                    confidence: 'high'
+                },
+                {
+                    type: 'phishing',
+                    ioc: 'microsoft-security-alert.net',
+                    source: 'OpenPhish',
+                    time: '22 min ago',
+                    confidence: 'high'
+                },
+                {
+                    type: 'c2',
+                    ioc: '104.248.159.117:9999',
+                    source: 'Feodo Tracker',
+                    time: '25 min ago',
+                    confidence: 'high'
+                }
+            ];
+
+            const threatsHtml = mockThreats.map(threat => `
+                <div class="threat-item threat-${threat.type}">
+                    <div class="threat-item-header">
+                        <span class="threat-type-badge badge-${threat.type}">${threat.type}</span>
+                        <span class="threat-time">${threat.time}</span>
+                    </div>
+                    <div class="threat-ioc">${threat.ioc}</div>
+                    <div class="threat-source">Source: ${threat.source} | Confidence: ${threat.confidence}</div>
+                </div>
+            `).join('');
+
+            threatFeed.innerHTML = threatsHtml;
+        }
+
+        function refreshThreats() {
+            const threatFeed = document.getElementById('threatFeed');
+            threatFeed.innerHTML = '<div style="text-align: center; padding: 20px; color: #b8b8b8;">Refreshing...</div>';
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                loadThreats();
+                
+                // Update stats with some randomization
+                document.getElementById('miniTotalThreats').textContent = Math.floor(Math.random() * 50) + 200;
+                document.getElementById('miniNewHour').textContent = Math.floor(Math.random() * 20) + 5;
+            }, 1000);
+        }
+
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.feature-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
